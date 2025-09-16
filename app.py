@@ -15,6 +15,7 @@ def carregar_personagens(max_personagens=100):
     pagina = 1
     while len(personagens) < max_personagens:
         try:
+            #Consumindo API
             response = requests.get(f"{API_URL}?page={pagina}")
             response.raise_for_status()
             data = response.json()
@@ -72,6 +73,7 @@ if "verificado" not in st.session_state:
 for i, p in enumerate(perguntas):
     if len(st.session_state.respostas) <= i:
         if p["imagem"]:
+            #Interessante
             st.image(p["imagem"], width=300)
         escolha = st.radio(p["pergunta"], p["opcoes"], key=f"q{i}")
         if st.button(f"Confirmar resposta {i+1}"):
@@ -80,7 +82,7 @@ for i, p in enumerate(perguntas):
 
 
 if len(st.session_state.respostas) == len(perguntas) and not st.session_state.verificado:
-    acertos = sum(1 for idx, p in enumerate(perguntas) if st.session_state.respostas[idx] == p["correta"])
+    acertos = sum(1 for idx, p in enumerate(perguntas) if st.session_state.respostas[idx] == p["correta"])#Interessante
     st.session_state.acertos = acertos
     st.session_state.erros = len(perguntas) - acertos
     st.session_state.verificado = True
@@ -91,6 +93,7 @@ if st.session_state.verificado:
     st.error(f"Você errou {st.session_state.erros} perguntas.")
     st.markdown(f"### 🎯 Pontuação final: **{st.session_state.acertos * 10} pontos**")
 
+    #interessante 
     if st.button("Jogar novamente 🔁"):
         st.session_state.respostas = []
         st.session_state.verificado = False
